@@ -22,7 +22,7 @@ export default function Navbar() {
       <div className="flex space-x-10 px-16 pl-10 text-lg text-white sm:space-x-10 sm:pl-4 ">
         <button onClick={openDiscover}>Discover</button>
         <button onClick={openShop}>Shop</button>
-        <button onClick={openComission}>Comission</button>
+        <button onClick={openComission}>Matchmaker</button>
         <button onClick={openAccount}>Account</button>
       </div>
       <div className="top-18 absolute right-0 h-10 w-1/12 bg-gradient-to-r from-gray-800 lg:from-transparent lg:to-transparent" />

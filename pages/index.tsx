@@ -1,11 +1,12 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import Header from '../src/components/TopEnd/Header'
 import Navbar from '../src/components/TopEnd/Navbar'
-import DiscoverPage from '../src/components/Main/DiscoverPage'
 
 const Home: NextPage = () => {
+  const router = useRouter()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pb-2">
       <Head>
@@ -22,7 +23,12 @@ const Home: NextPage = () => {
             <p className="text-2xl">DISCOVER METAVERSE WEARABLES</p>
             <div className="my-8 flex flex-col items-start space-y-2">
               <p>Marketplace for physical & digital Items. New & preloved.</p>
-              <p>Matchmaking between Fashion Brands & 3D Designers</p>
+              <p
+                onClick={() => router.push('/comission')}
+                className="cursor-pointer hover:text-gray-700 hover:underline"
+              >
+                Matchmaking between Fashion Brands & 3D Designers.
+              </p>
             </div>
           </div>
           <div className="absolute top-48 flex w-full items-center justify-center sm:top-0 sm:justify-end sm:opacity-0">
@@ -32,7 +38,7 @@ const Home: NextPage = () => {
         <div className="absolute top-72">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center sm:mt-2">
             <p className="mb-8 text-2xl">
-              Wear fashion items in the real world as well as the metaverse.
+              Wear fashion items in the real world and the metaverse.
             </p>
             <Image src={'/hero.png'} height={400} width={800} />
           </div>
