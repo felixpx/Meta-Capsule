@@ -1,10 +1,13 @@
 module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
+  darkMode: 'class',
+  content: ['./pages/**/*.{html,js,tsx}', './src/**/*.{js,jsx,ts,tsx,vue}'],
   theme: {
+    typography: (theme) => ({}),
     extend: {},
   },
-  plugins: [],
+  variants: {},
+  plugins: [
+    require('@tailwindcss/typography'),
+    require('tailwind-scrollbar-hide'),
+  ],
 }

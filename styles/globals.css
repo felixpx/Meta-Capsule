@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    /* @apply bg-gradient-to-b from-[#f5f5f5] via-[#f5f5f5] to-teal-300 text-gray-800; */
+    @apply bg-gradient-to-t from-[#f5f5f5] via-indigo-300 to-[#f5f5f5] text-black;
+  }
+}

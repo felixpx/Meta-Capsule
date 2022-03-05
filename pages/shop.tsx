@@ -3,7 +3,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Header from '../src/components/TopEnd/Header'
 import Navbar from '../src/components/TopEnd/Navbar'
-import DiscoverPage from '../src/components/Main/DiscoverPage'
+import Marketplace from '../src/components/Main/Marketplace'
+import { ShoppingCartIcon } from '@heroicons/react/outline'
 
 const Home: NextPage = () => {
   return (
@@ -16,26 +17,17 @@ const Home: NextPage = () => {
         <Header />
         <Navbar />
       </header>
-      <main className="relative flex h-screen w-full flex-col items-center justify-center text-center">
+      <main className="relative flex h-screen w-full flex-col">
         <div className="flex w-full flex-row items-center justify-evenly">
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
-            <p className="text-2xl">DISCOVER METAVERSE WEARABLES</p>
-            <div className="my-8 flex flex-col items-start space-y-2">
-              <p>Marketplace for physical & digital Items. New & preloved.</p>
-              <p>Matchmaking between Fashion Brands & 3D Designers</p>
+            <p className="text-2xl">MARKETPLACE</p>
+            <div className="my-2 flex flex-col items-start space-y-2">
+              <p>Browse physical & digital items. New & preloved.</p>
             </div>
           </div>
-          <div className="absolute top-48 flex w-full items-center justify-center sm:top-0 sm:justify-end sm:opacity-0">
-            <Image src={'/logo.png'} height={100} width={100} />
-          </div>
         </div>
-        <div className="absolute top-72">
-          <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center sm:mt-2">
-            <p className="mb-8 text-2xl">
-              Wear fashion items in the real world as well as the metaverse.
-            </p>
-            <Image src={'/hero.png'} height={400} width={800} />
-          </div>
+        <div className="mt-24 flex flex-col">
+          <Marketplace />
         </div>
       </main>
       <footer className="flex h-24 w-full items-center justify-center border-t">
