@@ -15,7 +15,7 @@ export default function Marketplace() {
             physical ? 'bg-indigo-300' : ''
           }`}
         >
-          REAL
+          PHYSICAL
         </button>
         <button
           onClick={() => setPhysical(false)}

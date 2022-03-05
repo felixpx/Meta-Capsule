@@ -4,10 +4,12 @@ import Image from 'next/image'
 import Header from '../../src/components/TopEnd/Header'
 import Navbar from '../../src/components/TopEnd/Navbar'
 import { useRouter } from 'next/router'
+import { useMoralis } from 'react-moralis'
 
 const Home: NextPage = () => {
   const router = useRouter()
   const designerId = router.query.routerId
+  const { user } = useMoralis()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pb-2">
       <Head>
@@ -18,7 +20,9 @@ const Home: NextPage = () => {
         <Header />
         <Navbar />
       </div>
-      <main className="flex h-max w-full flex-col items-center px-20 pt-36 text-center"></main>
+      <main className="flex h-max w-full flex-col items-center px-20 pt-36 text-center">
+        Hello this is the page of User 1
+      </main>
 
       <footer className="flex h-24 w-full items-center justify-center border-t">
         <a

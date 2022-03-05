@@ -38,7 +38,7 @@ const Home: NextPage = () => {
         <div className="absolute top-72">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center sm:mt-2">
             <p className="mb-8 text-2xl">
-              Wear fashion items in the real world and the metaverse.
+              Wear fashion items in the real world and metaverse.
             </p>
             <Image src={'/hero.png'} height={400} width={800} />
           </div>
