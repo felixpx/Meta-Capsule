@@ -22,9 +22,9 @@ const Home: NextPage = () => {
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
             <p className="text-2xl">DISCOVER METAVERSE WEARABLES</p>
             <div className="my-8 flex flex-col items-start space-y-2">
-              <p>Marketplace for physical & digital Items. New & preloved.</p>
+              <p>Marketplace for physical & digital Items.</p>
               <p
-                onClick={() => router.push('/comission')}
+                onClick={() => router.push('/matchmaker')}
                 className="cursor-pointer hover:text-gray-700 hover:underline"
               >
                 Matchmaking between Fashion Brands & 3D Designers.
@@ -37,9 +37,7 @@ const Home: NextPage = () => {
         </div>
         <div className="absolute top-72">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center sm:mt-2">
-            <p className="mb-8 text-2xl">
-              Wear fashion items in the real world and metaverse.
-            </p>
+            <p className="mb-8 text-2xl">Your closet in the metaverse</p>
             <Image src={'/hero.png'} height={400} width={800} />
           </div>
         </div>

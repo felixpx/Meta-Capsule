@@ -10,10 +10,10 @@ export default function Navbar() {
     router.push('/shop')
   }
   function openComission() {
-    router.push('/comission')
+    router.push('/matchmaker')
   }
   function openAccount() {
-    router.push('/comission')
+    router.push('/account')
   }
 
   return (

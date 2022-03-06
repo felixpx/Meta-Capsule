@@ -40,8 +40,11 @@ const Home: NextPage = () => {
         <div className="absolute top-56 w-full">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
             <p className="mb-8 text-2xl">Featured 3D Artists</p>
-            <FeaturedArtist />
-            <FeaturedArtist />
+            <div className="flex w-full flex-col items-center justify-center xl:flex-row">
+              <FeaturedArtist />
+              <FeaturedArtist />
+              <FeaturedArtist />
+            </div>
           </div>
         </div>
       </main>
