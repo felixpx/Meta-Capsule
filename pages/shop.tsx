@@ -20,9 +20,9 @@ const Home: NextPage = () => {
       <main className="relative flex h-screen w-full flex-col">
         <div className="flex w-full flex-row items-center justify-evenly">
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
-            <p className="text-2xl">MARKETPLACE</p>
+            <p className="text-2xl">SHOP</p>
             <div className="my-2 flex flex-col items-start space-y-2">
-              <p>Browse physical & digital items. New & preloved.</p>
+              <p>Browse physical & digital items. </p>
             </div>
           </div>
         </div>
