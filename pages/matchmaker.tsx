@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Header from '../src/components/TopEnd/Header'
 import Navbar from '../src/components/TopEnd/Navbar'
 import FeaturedArtist from '../src/components/Matchmaker/FeaturedArtist'
+import FeaturedArtist1 from '../src/components/Matchmaker/FeaturedArtist1'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -39,11 +40,15 @@ const Home: NextPage = () => {
         </div>
         <div className="absolute top-56 w-full">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
-            <p className="mb-8 text-2xl">Featured 3D Artists</p>
+            <p className="mb-4 text-2xl">Featured 3D Artists</p>
             <div className="flex w-full flex-col items-center justify-center xl:flex-row">
-              <FeaturedArtist />
-              <FeaturedArtist />
-              <FeaturedArtist />
+              <div
+                aria-label="group of cards"
+                className="w-full flex-col space-y-8 focus:outline-none lg:flex-row"
+              >
+                <FeaturedArtist />
+                <FeaturedArtist />
+              </div>
             </div>
           </div>
         </div>
