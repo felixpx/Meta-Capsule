@@ -6,9 +6,9 @@ export default function Navbar() {
   function openDiscover() {
     router.push('/')
   }
-  function openShop() {
-    router.push('/shop')
-  }
+  // function openShop() {
+  //   router.push('/shop')
+  // }
   function openComission() {
     router.push('/matchmaker')
   }
@@ -25,7 +25,7 @@ export default function Navbar() {
       <div className="top-18 absolute left-0 h-10 w-1/12 bg-gradient-to-l from-gray-800" />
       <div className="flex space-x-10 px-16 pl-10 text-lg text-white sm:space-x-10 sm:pl-4 ">
         <button onClick={openDiscover}>Discover</button>
-        <button onClick={openShop}>Shop</button>
+        {/* <button onClick={openShop}>Shop</button> */}
         <button onClick={openComission}>Matchmaker</button>
         <button onClick={openAccount}>Account</button>
         <button onClick={openUpload}>Upload Items</button>

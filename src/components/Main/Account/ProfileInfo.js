@@ -52,9 +52,11 @@ export default function ProfileInfo() {
   }
 
   return (
-    <div className="my-4 flex flex-col items-start">
+    <div className="m-4 flex flex-col items-start">
+      <p>{username}</p>
+
       <div
-        className="flex cursor-pointer flex-row text-xs hover:text-indigo-600 active:text-[#f5f5f5]"
+        className="my-2 flex cursor-pointer flex-row text-xs hover:text-indigo-600 active:text-[#f5f5f5]"
         onClick={() => {
           navigator.clipboard.writeText(walletAddress)
         }}
@@ -62,12 +64,12 @@ export default function ProfileInfo() {
         <p>{walletAddress}</p>
         <ClipboardCopyIcon className="h-3" />
       </div>
-      <div className="mt-4 rounded-xl ">
+      <div className=" rounded-xl ">
         {!changeUser && (
           <div className="">
             <div>
-              <div className=" flex flex-col items-start space-y-1">
-                <p>{username}</p>
+              <div className=" flex flex-col items-start space-y-1 text-sm">
+                {/* <p>{username}</p> */}
                 <p>{user?.get('email') || ''}</p>
                 <p>{user?.get('website') || ''}</p>
               </div>

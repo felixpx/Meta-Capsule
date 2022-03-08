@@ -14,7 +14,7 @@ export default function FeaturedArtist() {
   }, [user])
 
   return (
-    <div class="w-full items-center justify-center lg:flex">
+    <div className="w-full items-center justify-center lg:flex">
       <div
         tabindex="0"
         aria-label="card 1"

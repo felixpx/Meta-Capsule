@@ -8,12 +8,14 @@ import ArtistInfo from '../src/components/Matchmaker/ArtistInfo'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import { XIcon } from '@heroicons/react/outline'
+import ProfileInfo from '../src/components/Main/Account/ProfileInfo'
 
 const Home: NextPage = () => {
-  const { isAuthenticated, authenticate, Moralis } = useMoralis()
+  const { isAuthenticated, authenticate, Moralis, user } = useMoralis()
 
   const [signup, setSignup] = useState(false)
   const [signupFirst, setSignupFirst] = useState(false)
+  const [noUser, setNoUser] = useState(Boolean)
 
   function signUpArtist() {
     if (!isAuthenticated) {
@@ -24,8 +26,13 @@ const Home: NextPage = () => {
   }
 
   useEffect(() => {
-    if (isAuthenticated) setSignupFirst(false)
-  }, [isAuthenticated])
+    if (isAuthenticated && user) {
+      setSignupFirst(false)
+      setNoUser(false)
+    } else if (!isAuthenticated) {
+      setNoUser(true)
+    }
+  }, [isAuthenticated, user])
 
   function signInwithMeta() {
     authenticate()
@@ -41,21 +48,28 @@ const Home: NextPage = () => {
         <Header />
         <Navbar />
       </header>
+      {!noUser && (
+        <div className="fixed top-36 right-12 z-50 w-64 rounded-xl bg-white bg-opacity-30 p-4">
+          <ProfileInfo />
+        </div>
+      )}
       {signupFirst && (
-        <div className="absolute top-0 flex h-screen w-full flex-col items-center bg-white bg-opacity-30">
-          <p className="mt-4">Not logged in! Sign in with metamask first!</p>
-          <button
-            onClick={signInwithMeta}
-            className="m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 lg:m-4"
-          >
-            Connect Wallet
-          </button>
-          <button
-            className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
-            onClick={() => setSignupFirst(false)}
-          >
-            Cancel
-          </button>
+        <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
+          <div className="absolute top-0 flex h-screen w-full flex-col items-center bg-white bg-opacity-30">
+            <p className="mt-24 text-xl">Not logged in!</p>
+            <button
+              onClick={signInwithMeta}
+              className="m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 lg:m-4"
+            >
+              Connect Wallet
+            </button>
+            <button
+              className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+              onClick={() => setSignupFirst(false)}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
       <main className="relative flex h-screen w-full flex-col items-center justify-center text-center">
@@ -92,13 +106,13 @@ const Home: NextPage = () => {
             </div>
           </div>
         </div>
-        <div className="absolute top-56 w-full items-center justify-center">
-          <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
+        <div className="absolute top-48 w-full items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
             <p className="mb-4 text-2xl">Featured 3D Artists</p>
-            <div className="flex w-full flex-col items-center justify-center xl:flex-row">
+            <div className="flex w-full flex-row items-center justify-center">
               <div
                 aria-label="group of cards"
-                className="w-full flex-col space-y-8 focus:outline-none lg:flex-row"
+                className="flex w-full flex-col items-center justify-between space-y-4 focus:outline-none"
               >
                 <FeaturedArtist />
                 <FeaturedArtist />
