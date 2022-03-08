@@ -16,7 +16,7 @@ export default function Navbar() {
   //   router.push('/account')
   // }
 
-  function openUpload() {
+  function openDash() {
     router.push('/dashboard')
   }
 
@@ -28,7 +28,7 @@ export default function Navbar() {
         {/* <button onClick={openShop}>Shop</button> */}
         <button onClick={openComission}>Matchmaker</button>
         {/* <button onClick={openAccount}>Account</button> */}
-        <button onClick={openUpload}>Upload Items</button>
+        <button onClick={openDash}>Dashboard</button>
       </div>
       <div className="top-18 absolute right-0 h-10 w-1/12 bg-gradient-to-r from-gray-800 lg:from-transparent lg:to-transparent" />
     </nav>

@@ -78,14 +78,33 @@ const Home: NextPage = () => {
       <main className="relative flex h-screen w-full flex-col items-center justify-center text-center">
         <div className="flex w-full flex-row items-center justify-evenly">
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
-            <p className="text-2xl">UPLOAD COLLECTION</p>
-            <p>Mint digital items for the metaverse.</p>
+            <p className="text-2xl">DASHBOARD</p>
+            <div className="mt-8 flex flex-row items-center space-x-8 ">
+              <button
+                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+                // onClick={}
+              >
+                Matches
+              </button>
+              <button
+                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+                // onClick={}
+              >
+                Upload Items
+              </button>
+              <button
+                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+                // onClick={}
+              >
+                Collection
+              </button>
+            </div>
           </div>
           <div className="absolute top-36 flex w-full items-center justify-center sm:top-0 sm:justify-end sm:opacity-0">
             <SunIcon className="h-12" />
           </div>
         </div>
-        <div className="absolute top-56 w-full">
+        <div className="absolute top-44 w-full">
           <div className="mb-8 flex w-full flex-col items-center justify-center">
             <div className="flex w-full flex-row items-center justify-evenly">
               <p className="mb-8 text-2xl">Mint Collection</p>
