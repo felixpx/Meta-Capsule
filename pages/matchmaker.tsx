@@ -1,15 +1,36 @@
-import { PencilAltIcon } from '@heroicons/react/outline'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import Header from '../src/components/TopEnd/Header'
 import Navbar from '../src/components/TopEnd/Navbar'
 import FeaturedArtist from '../src/components/Matchmaker/FeaturedArtist'
-import FeaturedArtist1 from '../src/components/Matchmaker/FeaturedArtist1'
+import ArtistInfo from '../src/components/Matchmaker/ArtistInfo'
+import { useEffect, useState } from 'react'
+import { useMoralis } from 'react-moralis'
+import { XIcon } from '@heroicons/react/outline'
 
 const Home: NextPage = () => {
-  const router = useRouter()
+  const { isAuthenticated, authenticate, Moralis } = useMoralis()
+
+  const [signup, setSignup] = useState(false)
+  const [signupFirst, setSignupFirst] = useState(false)
+
+  function signUpArtist() {
+    if (!isAuthenticated) {
+      setSignupFirst(true)
+    } else if (isAuthenticated) {
+      setSignup(true)
+    }
+  }
+
+  useEffect(() => {
+    if (isAuthenticated) setSignupFirst(false)
+  }, [isAuthenticated])
+
+  function signInwithMeta() {
+    authenticate()
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center pb-2">
       <Head>
@@ -20,8 +41,38 @@ const Home: NextPage = () => {
         <Header />
         <Navbar />
       </header>
+      {signupFirst && (
+        <div className="absolute top-0 flex h-screen w-full flex-col items-center bg-white bg-opacity-30">
+          <p className="mt-4">Not logged in! Sign in with metamask first!</p>
+          <button
+            onClick={signInwithMeta}
+            className="m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 lg:m-4"
+          >
+            Connect Wallet
+          </button>
+          <button
+            className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+            onClick={() => setSignupFirst(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
       <main className="relative flex h-screen w-full flex-col items-center justify-center text-center">
-        <div className="flex w-full flex-row items-center justify-evenly">
+        <div className="flex h-screen w-full flex-row items-center justify-evenly ">
+          {signup && (
+            <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
+              <div className="flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
+                <ArtistInfo />
+                <button
+                  className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
+                  onClick={() => setSignup(false)}
+                >
+                  <XIcon className="h-5" />
+                </button>
+              </div>
+            </div>
+          )}
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
             <p className="text-2xl">MATCHMAKER</p>
             <div className="my-8 flex flex-col items-start space-y-2">
@@ -29,16 +80,19 @@ const Home: NextPage = () => {
                 Find 3D Artists to bring your fashion collection to the digital
                 world.
               </p>
-              <div className="flex flex-row">
+              <div className="flex w-full flex-row">
                 <p>Are you a 3D Artist and looking for work?</p>
-                <p className="ml-2 cursor-pointer font-bold underline hover:text-gray-700">
+                <p
+                  className="ml-2 cursor-pointer font-bold underline hover:text-gray-700"
+                  onClick={signUpArtist}
+                >
                   Sign Up
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="absolute top-56 w-full">
+        <div className="absolute top-56 w-full items-center justify-center">
           <div className="mb-8 mt-4 flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
             <p className="mb-4 text-2xl">Featured 3D Artists</p>
             <div className="flex w-full flex-col items-center justify-center xl:flex-row">
@@ -53,6 +107,7 @@ const Home: NextPage = () => {
           </div>
         </div>
       </main>
+
       <footer className="flex h-24 w-full items-center justify-center border-t">
         <a
           className="flex items-center justify-center gap-2"

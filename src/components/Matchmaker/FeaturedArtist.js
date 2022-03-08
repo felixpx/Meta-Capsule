@@ -1,5 +1,6 @@
+import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 
 export default function FeaturedArtist() {
@@ -7,6 +8,10 @@ export default function FeaturedArtist() {
   const { user } = useMoralis()
 
   const [artistId, setArtistId] = useState()
+
+  useEffect(() => {
+    if (user) setArtistId(user.get('ethAddress'))
+  }, [user])
 
   return (
     <div class="w-full items-center justify-center lg:flex">
@@ -35,7 +40,13 @@ export default function FeaturedArtist() {
                 tabindex="0"
                 class="pt-2 text-sm leading-normal text-gray-500 focus:outline-none"
               >
-                WebsiteLink
+                www.Website.com
+              </p>
+              <p
+                tabindex="0"
+                class="pt-1 text-sm leading-normal text-gray-500 focus:outline-none"
+              >
+                Email@email.com
               </p>
             </div>
             <div role="img" aria-label="bookmark">
