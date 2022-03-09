@@ -13,6 +13,8 @@ const Home: NextPage = () => {
 
   const [noUser, setNoUser] = useState(Boolean)
   const [upload, setUpload] = useState(Boolean)
+  const [collection, setCollection] = useState(Boolean)
+  const [match, setMatch] = useState(Boolean)
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -26,6 +28,19 @@ const Home: NextPage = () => {
 
   function uploading() {
     setUpload(true)
+    setCollection(false)
+    setMatch(false)
+  }
+
+  function collecting() {
+    setUpload(false)
+    setCollection(true)
+    setMatch(false)
+  }
+  function matching() {
+    setMatch(true)
+    setUpload(false)
+    setCollection(false)
   }
 
   return (
@@ -50,20 +65,26 @@ const Home: NextPage = () => {
             <p className="text-2xl">DASHBOARD</p>
             <div className="mt-8 flex flex-row items-center space-x-8 ">
               <button
-                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
-                // onClick={}
+                className={`m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                  collection && 'bg-indigo-300'
+                }`}
+                onClick={collecting}
               >
                 Collection
               </button>
               <button
-                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
+                className={`m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                  upload && 'bg-indigo-300'
+                }`}
                 onClick={uploading}
               >
                 Upload Items
               </button>
               <button
-                className="whitespace-nowrap rounded-lg border-2 border-gray-800 px-2"
-                // onClick={}
+                className={`m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                  match && 'bg-indigo-300'
+                }`}
+                onClick={matching}
               >
                 Matches
               </button>
