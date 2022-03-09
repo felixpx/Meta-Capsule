@@ -115,7 +115,6 @@ const Home: NextPage = () => {
                 className="flex w-full flex-col items-center justify-between space-y-4 focus:outline-none"
               >
                 <FeaturedArtist />
-                <FeaturedArtist />
               </div>
             </div>
           </div>

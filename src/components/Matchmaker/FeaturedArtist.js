@@ -13,6 +13,16 @@ export default function FeaturedArtist() {
     if (user) setArtistId(user.get('ethAddress'))
   }, [user])
 
+  function escrow() {
+    alert('get in escrow')
+
+    //contract call
+  }
+
+  function visitWebsite() {
+    window.open('https://www.light0green.xyz')
+  }
+
   return (
     <div className="w-full items-center justify-center lg:flex">
       <div
@@ -46,7 +56,7 @@ export default function FeaturedArtist() {
                 tabindex="0"
                 class="pt-1 text-sm leading-normal text-gray-500 focus:outline-none"
               >
-                Email@email.com
+                light0green926@gmail.com
               </p>
             </div>
             <div role="img" aria-label="bookmark">
@@ -74,17 +84,21 @@ export default function FeaturedArtist() {
             tabindex="0"
             class="py-4 text-sm leading-5 text-gray-600 focus:outline-none"
           >
-            Yifan Pu is a Chinese virtual fashion designer exploring new
-            pathways into the future of the industry. She has never been a fan
-            of the traditional fashion, while digital design became a perfect
-            tool for her to express herself creatively without the limitations
-            of the physical world, mass production, and consumption. Recently
-            Yifan took part in Helsinki Fashion Week, which is renowned for
-            being one of the most innovative and forward-thinking platforms for
-            fashion designers.
+            Hi I'm Yifan Pu (sometimes as light0green). I'm a Chinese virtual
+            fashion designer and artist currently based in Berlin. I taught
+            myself CLO3d with a previous knowledge of 3d modelling and a
+            constant passion for fashion. I find virtual fashion a perfect tool
+            to express pure creation and a second self-identity freed from
+            physical limitations, mass production and consumption. The username
+            light0green is a combination of my favourite colour light green and
+            the character Yagami Light (pronounced Rai-to) from anime Death
+            Note.
           </p>
-          <div tabindex="0" class="flex focus:outline-none">
-            <div class="rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
+          <div
+            tabindex="0"
+            className="flex items-center justify-between focus:outline-none "
+          >
+            {/* <div class="rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
               #blender
             </div>
             <div class="ml-3 rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
@@ -95,7 +109,19 @@ export default function FeaturedArtist() {
             </div>
             <div class="ml-3 rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
               #dressX
-            </div>
+            </div> */}
+            <button
+              onClick={escrow}
+              className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+            >
+              Escrow
+            </button>
+            <button
+              onClick={visitWebsite}
+              className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+            >
+              Visit Website
+            </button>
           </div>
         </div>
       </div>

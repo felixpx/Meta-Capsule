@@ -59,7 +59,7 @@ const Home: NextPage = () => {
         </div>
         <div className="absolute top-52">
           <div className="flex w-full flex-col items-center justify-center sm:mt-2">
-            <p className="mb-4 text-2xl">Market</p>
+            <p className="mb-4 text-2xl">Shop Items</p>
             <div className="flex flex-col">
               <Marketplace />
             </div>

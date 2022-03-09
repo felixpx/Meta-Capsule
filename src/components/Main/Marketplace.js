@@ -9,7 +9,7 @@ export default function Marketplace() {
   return (
     <div className="flex w-full flex-col items-center justify-center">
       <nav className="mb-8 flex w-8/12 flex-row items-center justify-evenly space-x-8">
-        <button
+        {/* <button
           onClick={() => setPhysical(true)}
           className={`m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
             physical ? 'bg-indigo-300' : ''
@@ -24,9 +24,9 @@ export default function Marketplace() {
           }`}
         >
           Digital
-        </button>
+        </button> */}
       </nav>
-      <main className="flex w-11/12 flex-row flex-wrap items-center justify-center overflow-x-scroll">
+      <main className="flex w-11/12 flex-row items-center justify-center overflow-x-scroll">
         {/* {physical && data.map((props, index) => {
           <MarketItem props/>
         })} */}

@@ -55,7 +55,7 @@ export default function ProfileInfo() {
     <div className="m-4 flex flex-col items-start">
       <p>{username}</p>
 
-      <div
+      {/* <div
         className="my-2 flex cursor-pointer flex-row text-xs hover:text-indigo-600 active:text-[#f5f5f5]"
         onClick={() => {
           navigator.clipboard.writeText(walletAddress)
@@ -63,7 +63,7 @@ export default function ProfileInfo() {
       >
         <p>{walletAddress}</p>
         <ClipboardCopyIcon className="h-3" />
-      </div>
+      </div> */}
       <div className=" rounded-xl ">
         {!changeUser && (
           <div className="">
