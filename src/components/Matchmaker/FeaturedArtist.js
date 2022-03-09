@@ -18,7 +18,7 @@ export default function FeaturedArtist() {
       <div
         tabindex="0"
         aria-label="card 1"
-        class="mb-7 rounded bg-white p-6 shadow focus:outline-none lg:mr-7 lg:mb-0 lg:w-4/12"
+        class="mb-7 rounded-xl bg-white bg-opacity-50 p-6 shadow focus:outline-none lg:mr-7 lg:mb-0 lg:w-4/12"
       >
         <div class="flex items-center border-b border-gray-200 pb-6">
           <img
@@ -40,7 +40,7 @@ export default function FeaturedArtist() {
                 tabindex="0"
                 class="pt-2 text-sm leading-normal text-gray-500 focus:outline-none"
               >
-                www.Website.com
+                www.light0green.xyz
               </p>
               <p
                 tabindex="0"

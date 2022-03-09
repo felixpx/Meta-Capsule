@@ -3,11 +3,11 @@ import NumberFormat from 'react-number-format'
 
 export default function MarketItem() {
   return (
-    <div className="m-4 flex h-48 w-48 flex-col rounded-xl bg-[#f5f5f5] sm:h-96 sm:w-72">
+    <div className="m-4 flex h-64 w-64 flex-col rounded-xl bg-[#f5f5f5] sm:h-96 ">
       <Image
         src={'/light0green1.png'}
-        width={500}
-        height={500}
+        width={250}
+        height={250}
         className="rounded-t-xl"
       />
       {/* <div className="mx-2 flex flex-col items-start sm:mx-4">

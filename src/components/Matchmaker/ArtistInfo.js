@@ -7,31 +7,6 @@ export default function ArtistInfo() {
   const { Moralis, isUserUpdating } = useMoralis()
   const { saveFile } = useMoralisFile()
 
-  // const [walletAddress, setWalletAddress] = useState()
-  // const [username, setUsername] = useState()
-  // const [email, setEmail] = useState()
-  // const [website, setWebsite] = useState()
-  // const [wrongNetwork, setWrongNetwork] = useState(Boolean)
-  // const [changeUser, setChangeUser] = useState(false)
-
-  // useEffect(() => {
-  //   if (isWeb3Enabled) enableWeb3()
-  //   if (isAuthenticated && chainId != null) {
-  //     if (user) {
-  //       setUsername(user.get('username'))
-  //       setWalletAddress(user.get('ethAddress').slice(0, 8).concat('...'))
-  //       setWrongNetwork(false)
-  //     }
-  //   } else if (isAuthenticated && chainId != '0x13881') {
-  //     if (user) {
-  //       setUsername(user.get('username'))
-  //       setWalletAddress(user.get('ethAddress'))
-  //     }
-  //     setWrongNetwork(true)
-  //   } else {
-  //   }
-  // }, [user, isAuthenticated, chainId])
-
   async function saveSignup(e) {
     e.preventDefault()
     const artistName = document.getElementById('artistName').value
