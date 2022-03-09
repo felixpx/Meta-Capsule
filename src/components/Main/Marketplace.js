@@ -33,11 +33,11 @@ export default function Marketplace() {
         {/* {!physical && data.map((props, index) => {
           <MarketItem props/>
         })} */}
-        <MarketItem />
-        <MarketItem />
-        <MarketItem />
-        <MarketItem />
-        <MarketItem />
+        <MarketItem title={'Moralis T-Shirt'} by={'Moralis'} />
+        <MarketItem title={'Glasses'} by={'Yifan Pu'} />
+        <MarketItem title={'Heels'} by={'Yifan Pu'} />
+        <MarketItem title={'Shirt'} by={'Yifan Pu'} />
+        <MarketItem title={'IPFS T-Shirt'} by={'IPFS'} />
       </main>
     </div>
   )
