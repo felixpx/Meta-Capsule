@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react'
+import { Listbox, Transition } from '@headlessui/react'
+import { CheckIcon, SelectorIcon } from '@heroicons/react/outline'
+import { Fragment, useEffect, useState } from 'react'
 import { useMoralis, useMoralisFile } from 'react-moralis'
 
 export default function MintItem() {
@@ -7,7 +9,9 @@ export default function MintItem() {
 
   const [uploadDone, setUploadDone] = useState(false)
 
-  useEffect(() => {}, [])
+  const [selected, setSelected] = useState()
+  const [categories, setCategories] = useState([])
+  const [selectedId, setSelectedId] = useState(new Map())
 
   //   async function contractCall(object) {
   //     const web3Provider = await Moralis.enableWeb3()
@@ -30,6 +34,21 @@ export default function MintItem() {
   //       })
   //   }
 
+  useEffect(() => {
+    const ItemCategory = Moralis.Object.extend('ItemCategory')
+    const query = new Moralis.Query(ItemCategory)
+    query.find().then((results) => {
+      let r = []
+      let rmap = new Map()
+      results.forEach((result) => {
+        r.push({ id: result.id, Category: result.get('Category') })
+        rmap[result.get('Category')] = result.id
+      })
+      setCategories(r)
+      setSelectedId(rmap)
+    })
+  }, [])
+
   async function uploadItem(e) {
     e.preventDefault()
     const itemTitle = document.getElementById('itemTitle').value
@@ -37,11 +56,13 @@ export default function MintItem() {
     const numberOfItems = document.getElementById('numberOfItems').value
     const pricePerItem = document.getElementById('pricePerItem').value
     const itemFile = document.getElementById('itemFile').files[0]
+    // const itemFile2 = document.getElementById('itemFile2').files[0]
 
     let ipfsFile = ''
+    let ipfsFile2 = ''
 
     if (itemFile) {
-      console.log('uploading cover')
+      console.log('uploading file')
       await saveFile('itemFile', itemFile, { saveIPFS: true }).then(
         async (hash) => {
           console.log(hash)
@@ -49,9 +70,19 @@ export default function MintItem() {
         }
       )
     }
+    // if (itemFile2) {
+    //   console.log('uploading file 2')
+    //   await saveFile('itemFile2', itemFile2, { saveIPFS: true }).then(
+    //     async (hash) => {
+    //       console.log(hash)
+    //       ipfsFile2 = hash._ipfs
+    //     }
+    //   )
+    // }
     const metadata = {
       name: itemTitle,
       file: ipfsFile,
+      // file2: ipfsFile2,
       description: itemDescription,
       numberOfItems: numberOfItems,
     }
@@ -68,6 +99,7 @@ export default function MintItem() {
     item.set('itemDescription', itemDescription)
     item.set('numberOfItems', numberOfItems)
     item.set('itemFile', ipfsFile)
+    // item.set('itemFile2', ipfsFile2)
     item.set('pricePerItem', pricePerItem)
     item.save().then((proposal) => {
       // contractcall
@@ -77,7 +109,7 @@ export default function MintItem() {
   }
 
   return (
-    <form className="flex h-96 w-96 flex-col items-center justify-evenly space-y-4 rounded-xl bg-white bg-opacity-20">
+    <form className="flex h-max w-96 flex-col items-center justify-evenly space-y-8 rounded-xl bg-white bg-opacity-20 pt-4 pb-4">
       <input
         className="mr-4 w-64 rounded-xl bg-indigo-100 px-2 py-1 outline-none"
         id={'itemTitle'}
@@ -106,9 +138,70 @@ export default function MintItem() {
         id={'itemFile'}
         type={'file'}
       />
+      {/* <input
+        className="mr-4 w-64 rounded-xl bg-indigo-100 px-2 py-1 outline-none"
+        id={'itemFile2'}
+        type={'file'}
+      /> */}
+      <div className="w-72">
+        <Listbox value={selected} onChange={setSelected}>
+          <div className="relative mt-1">
+            <Listbox.Button className="focus-visible:ring-[f5f5f5] relative w-full cursor-default rounded-lg bg-indigo-200 bg-opacity-80 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-300 focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-500 sm:text-sm">
+              <span className="block truncate">
+                {selected ? selected : 'Choose Category'}
+              </span>
+              <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                <SelectorIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+              </span>
+            </Listbox.Button>
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {categories.map((category, categoryIdx) => (
+                  <Listbox.Option
+                    key={categoryIdx}
+                    className={({ active }) =>
+                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                        active
+                          ? 'bg-indigo-100 text-indigo-900'
+                          : 'text-gray-900'
+                      }`
+                    }
+                    value={category.Category}
+                  >
+                    {({ selected }) => (
+                      <>
+                        <span
+                          className={`block truncate ${
+                            selected ? 'font-medium' : 'font-normal'
+                          }`}
+                        >
+                          {category.Category}
+                        </span>
+                        {selected ? (
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
+                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          </div>
+        </Listbox>
+      </div>
       <button
         onClick={uploadItem}
-        className=" w-48 rounded-xl border border-indigo-500 bg-indigo-200 px-2 text-sm"
+        className={`whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 text-sm`}
       >
         Upload Item
       </button>

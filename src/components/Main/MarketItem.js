@@ -23,7 +23,7 @@ export default function MarketItem({ title, by }) {
             <p>Digital Only</p>
           </div>
         </div>
-        <div className="absolute bottom-4 flex w-full flex-row items-center justify-evenly text-xs text-sm ">
+        <div className="absolute bottom-4 flex w-full flex-row items-center justify-evenly text-xs ">
           <div className="rounded-lg border-2 border-gray-800 p-1 px-2">
             <NumberFormat
               value={'7'}
