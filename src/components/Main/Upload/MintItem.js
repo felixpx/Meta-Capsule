@@ -34,6 +34,8 @@ export default function MintItem() {
   //       })
   //   }
 
+  //CATEGORY MAP USEFX
+
   useEffect(() => {
     const ItemCategory = Moralis.Object.extend('ItemCategory')
     const query = new Moralis.Query(ItemCategory)
@@ -49,6 +51,7 @@ export default function MintItem() {
     })
   }, [])
 
+  //  IPFS STORAGE
   async function uploadItem(e) {
     e.preventDefault()
     const itemTitle = document.getElementById('itemTitle').value
