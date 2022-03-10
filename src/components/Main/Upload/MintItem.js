@@ -59,6 +59,8 @@ export default function MintItem() {
     const numberOfItems = document.getElementById('numberOfItems').value
     const pricePerItem = document.getElementById('pricePerItem').value
     const itemFile = document.getElementById('itemFile').files[0]
+    const selectedCategory = selected
+
     // const itemFile2 = document.getElementById('itemFile2').files[0]
 
     let ipfsFile = ''
@@ -88,6 +90,7 @@ export default function MintItem() {
       // file2: ipfsFile2,
       description: itemDescription,
       numberOfItems: numberOfItems,
+      category: selectedCategory,
     }
     const metadataFile = new Moralis.File('metadata.json', {
       base64: btoa(JSON.stringify(metadata)),
@@ -98,12 +101,17 @@ export default function MintItem() {
     const Item = new Moralis.Object.extend('Item')
     const item = new Item()
 
+    const ItemCategory = Moralis.Object.extend('ItemCategory')
+    const category = new ItemCategory()
+    category.set('objectId', selectedId[selected])
+
     item.set('itemTitle', itemTitle)
     item.set('itemDescription', itemDescription)
     item.set('numberOfItems', numberOfItems)
     item.set('itemFile', ipfsFile)
     // item.set('itemFile2', ipfsFile2)
     item.set('pricePerItem', pricePerItem)
+    item.set('category', category)
     item.save().then((proposal) => {
       // contractcall
       console.log(proposal)
