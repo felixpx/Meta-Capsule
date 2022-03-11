@@ -1,32 +1,52 @@
 import Image from 'next/image'
+import { useState } from 'react'
+import { useMoralis } from 'react-moralis'
 import NumberFormat from 'react-number-format'
+import {
+  MarketABI,
+  marketplaceAddress,
+} from '../../Contracts/MarketplaceContract'
 
 export default function MarketItem({ title, by }) {
   // export default function MarketItem(props) {
 
-  // async function contractCallPurchase() {
-  //   const web3Provider = await Moralis.enableWeb3()
-  //   const ethers = Moralis.web3Library
-  //   // const option = { value: (props.data.recordPrice ** 18).toString() };
-  //   const options = {
-  //     value: ethers.utils.parseEther(props.data.recordPrice.toString()),
-  //   }
-  //   console.log(options)
+  //   const [isListed, setIsListed] = useState(props.data.get('listed'))
 
-  //   const contract = new ethers.Contract(
-  //     marketplaceAddress,
-  //     MarketplaceABI,
-  //     web3Provider.getSigner()
-  //   )
-  //   contract
-  //     .purchaseToken(props.data.listing_id, '1', options)
-  //     .then((result) => {
-  //       alert('transaction successful')
-  //     })
-  // }
+  const { Moralis, user } = useMoralis()
+  const [isListed, setIsListed] = useState(false)
+
+  async function contractCallListItem() {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contract = new ethers.Contract(
+      marketplaceAddress,
+      MarketABI,
+      web3Provider.getSigner()
+    )
+
+    // const price = ethers.utils.parseEther(
+    //   props.data.get('recordPrice').toString()
+    // )
+
+    contract
+      .listToken(
+        TokenAddress,
+        props.data.get('token_id'),
+        props.data.get('recordCount'),
+        // props.data.get("recordPrice")
+        price
+      )
+      .then((result) => {
+        props.data.set('listed', true)
+        props.data.save()
+        alert('successfully listed on the marketplace.')
+        setIsListed(true)
+      })
+  }
+
   function listItem() {
-    // console.log(props.data.recordPrice.toString())
-    // contractCallList()
+    contractCallListItem()
   }
 
   return (
@@ -58,12 +78,14 @@ export default function MarketItem({ title, by }) {
               prefix={'MATIC '}
             />
           </div> */}
-          {/* <button
-            onClick={listItem}
-            className={`whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
-          >
-            List
-          </button> */}
+          {!isListed && (
+            <button
+              onClick={listItem}
+              className={`whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+            >
+              List
+            </button>
+          )}
         </div>
       </div>
     </div>

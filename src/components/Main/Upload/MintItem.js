@@ -36,8 +36,8 @@ export default function MintItem() {
         object.get('metadataURI')
       )
       .then((result) => {
+        alert('mint confirmed, now approve for marketplace')
         contractMint.setApprovalForAll(marketplaceAddress, true)
-        alert('uploaded & approved.')
       })
   }
 
