@@ -2,9 +2,15 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/outline'
 import { Fragment, useEffect, useState } from 'react'
 import { useMoralis, useMoralisFile } from 'react-moralis'
+import { MintABI, mintAddress } from '../../../Contracts/MintContract'
+import {
+  MarketABI,
+  marketplaceAddress,
+} from '../../../Contracts/MarketplaceContract'
 
 export default function MintItem() {
-  const { user, isAuthenticated, Moralis } = useMoralis()
+  const { user, isAuthenticated, Moralis, enableWeb3, web3Library } =
+    useMoralis()
   const { saveFile } = useMoralisFile()
 
   const [uploadDone, setUploadDone] = useState(false)
@@ -13,26 +19,27 @@ export default function MintItem() {
   const [categories, setCategories] = useState([])
   const [selectedId, setSelectedId] = useState(new Map())
 
-  //   async function contractCall(object) {
-  //     const web3Provider = await Moralis.enableWeb3()
-  //     const ethers = Moralis.web3Library
-
-  //     const contractProposal = new ethers.Contract(
-  //       ConstructionAddress,
-  //       ConstructionABI,
-  //       web3Provider.getSigner()
-  //     )
-  //     contractProposal
-  //       .createProposal(
-  //         object.id,
-  //         object.get('projectPDF'),
-  //         object.get('numberOfDays'),
-  //         object.get('fundingGoal')
-  //       )
-  //       .then((result) => {
-  //         alert('proposal created')
-  //       })
-  //   }
+  async function contractCall(object) {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+    const contractMint = new ethers.Contract(
+      mintAddress,
+      MintABI,
+      web3Provider.getSigner()
+    )
+    contractMint
+      .createItem(
+        object.get('itemTitle'),
+        object.id,
+        object.get('numberOfItems'),
+        object.get('pricePerItem'),
+        object.get('metadataURI')
+      )
+      .then((result) => {
+        contractMint.setApprovalForAll(marketplaceAddress, true)
+        alert('uploaded & approved.')
+      })
+  }
 
   //CATEGORY MAP USEFX
 
@@ -64,7 +71,6 @@ export default function MintItem() {
     // const itemFile2 = document.getElementById('itemFile2').files[0]
 
     let ipfsFile = ''
-    let ipfsFile2 = ''
 
     if (itemFile) {
       console.log('uploading file')
@@ -75,23 +81,13 @@ export default function MintItem() {
         }
       )
     }
-    // if (itemFile2) {
-    //   console.log('uploading file 2')
-    //   await saveFile('itemFile2', itemFile2, { saveIPFS: true }).then(
-    //     async (hash) => {
-    //       console.log(hash)
-    //       ipfsFile2 = hash._ipfs
-    //     }
-    //   )
-    // }
+
     const metadata = {
       name: itemTitle,
-      file: ipfsFile,
-      // file2: ipfsFile2,
+      image: ipfsFile,
       description: itemDescription,
-      numberOfItems: numberOfItems,
-      category: selectedCategory,
     }
+
     const metadataFile = new Moralis.File('metadata.json', {
       base64: btoa(JSON.stringify(metadata)),
     })
@@ -102,19 +98,20 @@ export default function MintItem() {
     const item = new Item()
 
     const ItemCategory = Moralis.Object.extend('ItemCategory')
-    const category = new ItemCategory()
-    category.set('objectId', selectedId[selected])
+    const categorie = new ItemCategory()
+    categorie.set('objectId', selectedId[selected])
 
     item.set('itemTitle', itemTitle)
     item.set('itemDescription', itemDescription)
     item.set('numberOfItems', numberOfItems)
     item.set('itemFile', ipfsFile)
-    // item.set('itemFile2', ipfsFile2)
     item.set('pricePerItem', pricePerItem)
-    item.set('category', category)
-    item.save().then((proposal) => {
-      // contractcall
-      console.log(proposal)
+    item.set('category', categorie)
+    item.set('metadata', metadataFile)
+    item.set('metadataURI', metadataURI)
+    item.save().then((object) => {
+      contractCall(object)
+      console.log(object)
       setUploadDone(true)
     })
   }
@@ -149,11 +146,7 @@ export default function MintItem() {
         id={'itemFile'}
         type={'file'}
       />
-      {/* <input
-        className="mr-4 w-64 rounded-xl bg-indigo-100 px-2 py-1 outline-none"
-        id={'itemFile2'}
-        type={'file'}
-      /> */}
+
       <div className="w-72">
         <Listbox value={selected} onChange={setSelected}>
           <div className="relative mt-1">
@@ -216,6 +209,7 @@ export default function MintItem() {
       >
         Upload Item
       </button>
+      {uploadDone && <div>Upload done!</div>}
     </form>
   )
 }

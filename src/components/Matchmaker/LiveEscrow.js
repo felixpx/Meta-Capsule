@@ -3,10 +3,10 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
-import EscrowModal from './EscrowModal'
+import EscrowSubmitModal from './EscrowSubmitModal'
 
 export default function FeaturedArtist() {
-  const router = useRouter()
+  //   const router = useRouter()
   const { user } = useMoralis()
 
   const [artistId, setArtistId] = useState()
@@ -16,7 +16,7 @@ export default function FeaturedArtist() {
     if (user) setArtistId(user.get('ethAddress'))
   }, [user])
 
-  function escrow() {
+  function escrowSubmit() {
     setEscrowModal(true)
 
     //contract call
@@ -31,7 +31,7 @@ export default function FeaturedArtist() {
       {escrowModal && (
         <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
           <div className="flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
-            <EscrowModal />
+            <EscrowSubmitModal />
 
             <button
               className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
@@ -50,7 +50,7 @@ export default function FeaturedArtist() {
         >
           <div class="flex items-center border-b border-gray-200 pb-6">
             <img
-              onClick={() => router.push(`/artist/${artistId}`)}
+              //   onClick={() => router.push(`/artist/${artistId}`)}
               src="/blankimg.png"
               alt="coin avatar"
               className="h-12 w-12 cursor-pointer rounded-full"
@@ -58,23 +58,23 @@ export default function FeaturedArtist() {
             <div class="flex w-full items-start justify-between">
               <div class="w-full pl-3">
                 <p
-                  onClick={() => router.push(`/artist/${artistId}`)}
+                  //   onClick={() => router.push(`/artist/${artistId}`)}
                   tabindex="0"
                   class="cursor-pointer text-xl font-medium leading-5 text-gray-800 hover:underline focus:outline-none"
                 >
-                  YIFAN PU
+                  Project Name
                 </p>
                 <p
                   tabindex="0"
                   class="pt-2 text-sm leading-normal text-gray-500 focus:outline-none"
                 >
-                  www.light0green.xyz
+                  ARTST & BRAND in Escrow
                 </p>
                 <p
                   tabindex="0"
                   class="pt-1 text-sm leading-normal text-gray-500 focus:outline-none"
                 >
-                  light0green926@gmail.com
+                  projectEmail
                 </p>
               </div>
               <div role="img" aria-label="bookmark">
@@ -114,31 +114,13 @@ export default function FeaturedArtist() {
             </p>
             <div
               tabindex="0"
-              className="flex items-center justify-between focus:outline-none "
+              className="flex items-center justify-evenly focus:outline-none "
             >
-              {/* <div class="rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
-              #blender
-            </div>
-            <div class="ml-3 rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
-              #digitalfashion
-            </div>
-            <div class="ml-3 rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
-              #cinema4d
-            </div>
-            <div class="ml-3 rounded-full bg-indigo-100 py-2 px-4 text-xs leading-3 text-indigo-700">
-              #dressX
-            </div> */}
               <button
-                onClick={escrow}
+                onClick={escrowSubmit}
                 className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
               >
-                Escrow
-              </button>
-              <button
-                onClick={visitWebsite}
-                className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
-              >
-                Visit Website
+                Escrow Submission
               </button>
             </div>
           </div>

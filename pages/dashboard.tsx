@@ -6,14 +6,45 @@ import Header from '../src/components/TopEnd/Header'
 import Navbar from '../src/components/TopEnd/Navbar'
 import Login from '../src/components/Main/Account/Login'
 import MintItem from '../src/components/Main/Upload/MintItem'
+import LiveEscrow from '../src/components/Matchmaker/LiveEscrow'
 import ProfileInfo from '../src/components/Main/Account/ProfileInfo'
+import CollectionItem from '../src/components/Main/CollectionItem'
+
+const appId = 'wP72LBrtYNByCuvqcXnGZHuwQv6EBNQSUOpgjwio'
+const serverUrl = 'https://wacyebyvksfw.usemoralis.com:2053/server'
 
 const Home: NextPage = () => {
-  const { isAuthenticated, user } = useMoralis()
+  const {
+    Moralis,
+    user,
+    isAuthenticated,
+    isWeb3Enabled,
+    isWeb3EnableLoading,
+    enableWeb3,
+  } = useMoralis()
+
+  const [items, setItems] = useState([])
+
+  Moralis.start({ serverUrl, appId })
+
+  // useEffect(() => {
+  //   if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
+  //   const Item = Moralis.Object.extend('Item')
+  //   const query = new Moralis.Query(Item)
+  //   // query.notEqualTo('owner', 'notactive')
+  //   // query.equalTo("owner", user.get("ethAddress"));
+
+  //   Moralis.Cloud.run('getDownloadTokens', {
+  //     token_id: '0x7595656ba326543413e5288e6aAef08b60699A17',
+  //   }).then((results) => {
+  //     setItems(results)
+  //     console.log(results)
+  //   })
+  // }, [isAuthenticated, isWeb3Enabled, user])
 
   const [noUser, setNoUser] = useState(Boolean)
   const [upload, setUpload] = useState(Boolean)
-  const [collection, setCollection] = useState(Boolean)
+  const [collection, setCollection] = useState(true)
   const [match, setMatch] = useState(Boolean)
 
   useEffect(() => {
@@ -86,7 +117,7 @@ const Home: NextPage = () => {
                 }`}
                 onClick={matching}
               >
-                Matches
+                Escrow
               </button>
             </div>
           </div>
@@ -101,6 +132,28 @@ const Home: NextPage = () => {
                 <p className="mb-4 text-2xl">Mint Item</p>
               </div>
               <MintItem />
+            </div>
+          )}
+          {match && (
+            <div className="flex w-full flex-col items-center justify-center">
+              <div className="flex w-full flex-row items-center justify-evenly">
+                <p className="mb-4 text-2xl">Live Escrows</p>
+              </div>
+              {/* map through escrows */}
+              <LiveEscrow />
+            </div>
+          )}
+          {collection && (
+            // <div className="mt-10 flex w-9/12 flex-wrap justify-center">
+            //   {items.map((data, index) => (
+            //     <CollectionItem data={data} key={index} />
+            //   ))}
+            // </div>
+            <div className="mt-10 flex w-9/12 flex-wrap items-center justify-center">
+              <CollectionItem title="Moralis T" by={'moralis'} />
+              <CollectionItem title="Moralis T" by={'moralis'} />
+              <CollectionItem title="Moralis T" by={'moralis'} />
+              <CollectionItem title="Moralis T" by={'moralis'} />
             </div>
           )}
         </div>

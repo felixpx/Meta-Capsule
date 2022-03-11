@@ -24,9 +24,9 @@ export default function MarketItem({ title, by }) {
   //       alert('transaction successful')
   //     })
   // }
-  function buyItem() {
-    console.log(props.data.recordPrice.toString())
-    contractCallPurchase()
+  function listItem() {
+    // console.log(props.data.recordPrice.toString())
+    // contractCallList()
   }
 
   return (
@@ -49,7 +49,7 @@ export default function MarketItem({ title, by }) {
           </div>
         </div>
         <div className="absolute bottom-4 flex w-full flex-row items-center justify-evenly text-xs ">
-          <div className="rounded-lg border-2 border-gray-800 p-1 px-2">
+          {/* <div className="rounded-lg border-2 border-gray-800 p-1 px-2">
             <NumberFormat
               value={'7'}
               // value={props.data.pricePerItem}
@@ -57,13 +57,13 @@ export default function MarketItem({ title, by }) {
               thousandSeparator={true}
               prefix={'MATIC '}
             />
-          </div>
-          <button
-            onClick={buyItem}
+          </div> */}
+          {/* <button
+            onClick={listItem}
             className={`whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
           >
-            Buy
-          </button>
+            List
+          </button> */}
         </div>
       </div>
     </div>
