@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+// import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
@@ -13,7 +13,7 @@ import CollectionItem from '../src/components/Main/CollectionItem'
 const appId = 'wP72LBrtYNByCuvqcXnGZHuwQv6EBNQSUOpgjwio'
 const serverUrl = 'https://wacyebyvksfw.usemoralis.com:2053/server'
 
-const Home: NextPage = () => {
+const Home = () => {
   const {
     Moralis,
     user,
@@ -27,20 +27,24 @@ const Home: NextPage = () => {
 
   Moralis.start({ serverUrl, appId })
 
-  // useEffect(() => {
-  //   if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
-  //   const Item = Moralis.Object.extend('Item')
-  //   const query = new Moralis.Query(Item)
-  //   // query.notEqualTo('owner', 'notactive')
-  //   // query.equalTo("owner", user.get("ethAddress"));
+  useEffect(() => {
+    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
+    if (user) {
+      const Item = Moralis.Object.extend('Item')
+      const query = new Moralis.Query(Item)
+      // query.notEqualTo('owner', 'notactive')
+      query.equalTo('owner', user.get('ethAddress'))
 
-  //   Moralis.Cloud.run('getDownloadTokens', {
-  //     token_id: '0x7595656ba326543413e5288e6aAef08b60699A17',
-  //   }).then((results) => {
-  //     setItems(results)
-  //     console.log(results)
-  //   })
-  // }, [isAuthenticated, isWeb3Enabled, user])
+      query.find().then((results) => {
+        let result = []
+        results.forEach((item) => {
+          result.push(item)
+        })
+        setItems(result)
+        console.log(results)
+      })
+    }
+  }, [isAuthenticated, isWeb3Enabled, isWeb3EnableLoading, user, enableWeb3])
 
   const [noUser, setNoUser] = useState(Boolean)
   const [upload, setUpload] = useState(Boolean)
@@ -144,16 +148,10 @@ const Home: NextPage = () => {
             </div>
           )}
           {collection && (
-            // <div className="mt-10 flex w-9/12 flex-wrap justify-center">
-            //   {items.map((data, index) => (
-            //     <CollectionItem data={data} key={index} />
-            //   ))}
-            // </div>
-            <div className="mt-10 flex w-9/12 flex-wrap items-center justify-center">
-              <CollectionItem title="Moralis T" by={'moralis'} />
-              <CollectionItem title="Moralis T" by={'moralis'} />
-              <CollectionItem title="Moralis T" by={'moralis'} />
-              <CollectionItem title="Moralis T" by={'moralis'} />
+            <div className="mt-10 flex w-9/12 flex-wrap justify-center">
+              {items.map((data, index) => (
+                <CollectionItem data={data} key={index} />
+              ))}
             </div>
           )}
         </div>

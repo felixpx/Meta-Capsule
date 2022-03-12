@@ -1,5 +1,5 @@
 export const MintABI = [
-  'function createItem(string calldata _title, string calldata itemId ,uint256 _numberOfItems, uint256 price, string calldata _uri)   public',
+  'function createItem(string calldata _title, string calldata itemId ,uint256 _numberOfItems, uint256 price, string calldata _uri) public',
   'function setApprovalForAll(address operator, bool approved) external',
 ]
 
