@@ -53,9 +53,6 @@ const Home: NextPage = () => {
               </p>
             </div>
           </div>
-          {/* <div className="absolute top-48 flex w-full items-center justify-center sm:top-0 sm:justify-end sm:opacity-0">
-            <Image src={'/logo.png'} height={100} width={100} />
-          </div> */}
         </div>
         <div className="absolute top-52">
           <div className="flex w-full flex-col items-center justify-center sm:mt-2">
@@ -63,21 +60,9 @@ const Home: NextPage = () => {
             <div className="flex flex-col">
               <Marketplace />
             </div>
-            {/* <Image src={'/hero.png'} height={400} width={800} /> */}
           </div>
         </div>
       </main>
-      {/* <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer> */}
     </div>
   )
 }

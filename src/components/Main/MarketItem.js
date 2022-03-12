@@ -7,15 +7,15 @@ import {
 } from '../../Contracts/MarketplaceContract'
 
 export default function MarketItem(props) {
-  const { Moralis, user } = useMoralis()
+  const { Moralis, isWeb3Enabled, isAuthenticated } = useMoralis()
   async function contractCallPurchase() {
+    console.log('buying')
     const web3Provider = await Moralis.enableWeb3()
     const ethers = Moralis.web3Library
-    // const option = { value: (props.data.get('pricePerItem') ** 18).toString() }
-    // const options = {
-    //   value: ethers.utils.parseEther(props.data.get('pricePerItem')),
-    // }
-    // console.log(options)
+    const options = {
+      value: ethers.utils.parseEther(props.data.get('pricePerItem').toString()),
+    }
+    console.log(options)
 
     const contract = new ethers.Contract(
       marketplaceAddress,
@@ -29,13 +29,13 @@ export default function MarketItem(props) {
       })
   }
   function buyItem() {
-    contractCallPurchase()
+    if (isWeb3Enabled && isAuthenticated) contractCallPurchase()
+    else alert('not logged in')
   }
 
   return (
     <div className="relative m-4 flex h-64 w-64 flex-col rounded-xl bg-white bg-opacity-50 sm:h-96 ">
       <Image
-        // src={'/items/moralis_front.png'}
         src={props.data.get('itemFile')}
         width={250}
         height={250}
@@ -43,7 +43,6 @@ export default function MarketItem(props) {
       />
       <div className="flex flex-col items-start justify-between">
         <div className="mx-2 mt-4 flex flex-col items-start sm:mx-4">
-          {/* <p>{title}</p> */}
           <p>{props.data.get('itemTitle')}</p>
           <p className="text-xs">by {props.data.get('itemDescription')}</p>
           <div className="my-2 flex flex-col items-start justify-center text-xs">
@@ -54,7 +53,6 @@ export default function MarketItem(props) {
         <div className="absolute bottom-4 flex w-full flex-row items-center justify-evenly text-xs ">
           <div className="rounded-lg border-2 border-gray-800 p-1 px-2">
             <NumberFormat
-              // value={'7'}
               value={props.data.get('pricePerItem')}
               displayType={'text'}
               thousandSeparator={true}
