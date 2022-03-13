@@ -187,13 +187,15 @@ const Home = () => {
             </div>
           )}
           {collection && (
-            <div className="flex w-full flex-col items-center justify-center">
+            <div className="flex w-full flex-col items-center justify-evenly">
               <div className="flex w-full flex-row items-center justify-evenly">
                 <p className="mb-4 text-2xl">COLLECTION</p>
               </div>
-              {items.map((data, index) => (
-                <CollectionItem data={data} key={index} />
-              ))}
+              <div className="flex flex-row items-center">
+                {items.map((data, index) => (
+                  <CollectionItem data={data} key={index} />
+                ))}
+              </div>
             </div>
           )}
         </div>

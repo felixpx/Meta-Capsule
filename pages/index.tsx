@@ -44,13 +44,13 @@ const Home: NextPage = () => {
           <div className="absolute top-16 flex flex-col items-start justify-center sm:w-9/12">
             <p className="text-2xl">DISCOVER METAVERSE WEARABLES</p>
             <div className="my-8 flex flex-col items-start space-y-2">
-              <p>Marketplace for physical & digital Items.</p>
               <p
                 onClick={() => router.push('/matchmaker')}
                 className="cursor-pointer hover:text-gray-700 hover:underline"
               >
                 Matchmaking between Fashion Brands & 3D Designers.
               </p>
+              <p>Marketplace for physical & digital Items.</p>
             </div>
           </div>
         </div>

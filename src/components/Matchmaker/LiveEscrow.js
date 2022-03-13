@@ -1,4 +1,4 @@
-import { XIcon } from '@heroicons/react/outline'
+import { CheckCircleIcon, XIcon } from '@heroicons/react/outline'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -19,12 +19,21 @@ export default function LiveEscrow(props) {
     props.data.get('fileUploaded')
   )
 
+  const [finalApp, setFinalApp] = useState(props.data.get('finalApproval'))
+
+  const [showButtons, setShowButtons] = useState()
+
   const [review, setReview] = useState()
 
   useEffect(() => {
     if (user) setArtistId(user.get('ethAddress'))
-
-    // setEscrowApproved (true)
+    if (finalApp) {
+      setShowButtons(false)
+    } else if (!finalApp) {
+      setShowButtons(false)
+    } else {
+      showButtons(true)
+    }
   }, [user])
 
   function escrowSubmit() {
@@ -74,7 +83,36 @@ export default function LiveEscrow(props) {
   }
 
   const reviewSubmitContract = async () => {
-    //contractcall
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contractEscrow = new ethers.Contract(
+      EscrowAddress,
+      EscrowABI,
+      web3Provider.getSigner()
+    )
+    contractEscrow.completeAgreement(props.data.id).then((result) => {
+      console.log(result)
+      setFinalApp(true)
+      setReview(false)
+      alert('successfully approved the item of this contract')
+    })
+  }
+  const reviewDenyContract = async () => {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contractEscrow = new ethers.Contract(
+      EscrowAddress,
+      EscrowABI,
+      web3Provider.getSigner()
+    )
+    contractEscrow.rejectAgreement(props.data.id).then((result) => {
+      console.log(result)
+      setFinalApp(false)
+      setReview(false)
+      alert('successfully denied the item of this contract')
+    })
   }
 
   return (
@@ -98,6 +136,7 @@ export default function LiveEscrow(props) {
             <ReviewSubmitModal
               data={props.data}
               reviewSubmitContract={reviewSubmitContract}
+              reviewDenyContract={reviewDenyContract}
             />
             <button
               className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
@@ -162,58 +201,73 @@ export default function LiveEscrow(props) {
               anime Death Note.
               {/* {props.data.get('projectDescription')} */}
             </p>
-
-            {!submissionPending && (
-              <div
-                tabIndex="0"
-                className="flex items-center justify-evenly focus:outline-none "
-              >
-                <button
-                  onClick={escrowSubmit}
-                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
-                    !escrowApproved &&
-                    'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
-                  }`}
-                >
-                  Escrow Submission
-                </button>
-                <button
-                  onClick={escrowApprove}
-                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
-                    escrowApproved &&
-                    'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
-                  }`}
-                >
-                  Approve Submission
-                </button>
+            {finalApp && (
+              <div className="flex flex-row items-center justify-center">
+                <p>APPROVED</p>
+                <CheckCircleIcon className="h-6 text-green-500" />
               </div>
             )}
-            {submissionPending && (
-              <div
-                tabIndex="0"
-                className="flex items-center justify-evenly focus:outline-none "
-              >
-                <button
-                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
-                    submissionPending &&
-                    'cursor-default border-white bg-black bg-opacity-20 text-white'
-                  }`}
-                >
-                  Submission Pending
-                </button>
+            {!finalApp && (
+              <div className="flex flex-row items-center justify-center">
+                <p>DENIED</p>
+                <XIcon className="h-6 text-red-500" />
               </div>
             )}
-            {submissionPending && (
-              <div
-                tabIndex="0"
-                className="flex items-center justify-evenly focus:outline-none "
-              >
-                <button
-                  onClick={reviewSubmission}
-                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
-                >
-                  Review Submission
-                </button>
+            {showButtons && (
+              <div>
+                {!submissionPending && (
+                  <div
+                    tabIndex="0"
+                    className="flex items-center justify-evenly focus:outline-none "
+                  >
+                    <button
+                      onClick={escrowSubmit}
+                      className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                        !escrowApproved &&
+                        'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
+                      }`}
+                    >
+                      Escrow Submission
+                    </button>
+                    <button
+                      onClick={escrowApprove}
+                      className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                        escrowApproved &&
+                        'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
+                      }`}
+                    >
+                      Approve Submission
+                    </button>
+                  </div>
+                )}
+                {submissionPending && (
+                  <div
+                    tabIndex="0"
+                    className="flex items-center justify-evenly focus:outline-none "
+                  >
+                    <button
+                      className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                        submissionPending &&
+                        'cursor-default border-white bg-black bg-opacity-20 text-white'
+                      }`}
+                    >
+                      Submission Pending
+                    </button>
+                  </div>
+                )}
+                {submissionPending && (
+                  <div
+                    tabIndex="0"
+                    className="flex items-center justify-evenly focus:outline-none "
+                  >
+                    <button
+                      onClick={reviewSubmission}
+                      className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+                    >
+                      Review Submission
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

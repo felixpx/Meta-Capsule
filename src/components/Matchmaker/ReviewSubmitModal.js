@@ -6,50 +6,12 @@ import { EscrowABI, EscrowAddress } from '../../Contracts/EscrowContract'
 export default function ReviewSubmitModal(props) {
   const { Moralis, user } = useMoralis()
 
-  const [finalApproval, setFinalApproval] = useState()
-
   function approveReview() {
-    // if (user == props.data.get('projectBrand')) {
-    //   props.reviewSubmitContract()
-    // }
-    finalApprovalCall()
+    console.log('approve')
+    props.reviewSubmitContract()
   }
   function denyReview() {
-    finalRejection()
-  }
-
-  //contractCall Approve
-  async function finalApprovalCall() {
-    const web3Provider = await Moralis.enableWeb3()
-    const ethers = Moralis.web3Library
-
-    const contractEscrow = new ethers.Contract(
-      EscrowAddress,
-      EscrowABI,
-      web3Provider.getSigner()
-    )
-    contractEscrow.completeAgreement(props.data.id).then((result) => {
-      console.log(result)
-      setFinalApproval(true)
-      alert('successfully approved the item of this contract')
-    })
-  }
-
-  //contractCall DENY
-  async function finalRejection() {
-    const web3Provider = await Moralis.enableWeb3()
-    const ethers = Moralis.web3Library
-
-    const contractEscrow = new ethers.Contract(
-      EscrowAddress,
-      EscrowABI,
-      web3Provider.getSigner()
-    )
-    contractEscrow.rejectAgreement(props.data.id).then((result) => {
-      console.log(result)
-      setFinalApproval(false)
-      alert('successfully denied the item of this contract')
-    })
+    props.reviewDenyContract()
   }
 
   return (

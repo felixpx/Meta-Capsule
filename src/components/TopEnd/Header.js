@@ -1,6 +1,5 @@
 import { useChain, useMoralis } from 'react-moralis'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
 import Image from 'next/image'
 
 export default function Header() {
@@ -12,7 +11,23 @@ export default function Header() {
     chainId,
     authenticate,
     enableWeb3,
+    Moralis,
   } = useMoralis()
+
+  const [isConnected, setIsConnected] = useState()
+
+  const userConnect = async () => {
+    await Moralis.authenticate({
+      provider: 'walletconnect',
+      chainId: 80001,
+    })
+    setIsConnected(true)
+  }
+
+  const userDisconnect = async () => {
+    logout()
+    setIsConnected(false)
+  }
 
   const [wrongNetwork, setWrongNetwork] = useState('')
 
@@ -53,7 +68,7 @@ export default function Header() {
               onClick={logout}
               className="m-2 whitespace-nowrap rounded-xl border-2 border-gray-800 px-2 py-1 lg:m-4"
             >
-              Logout
+              Logout Metamask
             </button>
           ) : (
             !isAuthenticated && (
@@ -61,9 +76,26 @@ export default function Header() {
                 onClick={authenticate}
                 className="m-2 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 lg:m-4"
               >
-                Connect Wallet
+                Connect Metamask
               </button>
             )
+          )}
+
+          {!isConnected && (
+            <button
+              onClick={userConnect}
+              className="m-2 whitespace-nowrap rounded-xl border-2 border-gray-800 px-2 py-1 lg:m-4"
+            >
+              Connect Sequence
+            </button>
+          )}
+          {isConnected && (
+            <button
+              onClick={userDisconnect}
+              className="m-2 whitespace-nowrap rounded-xl border-2 border-gray-800 px-2 py-1 lg:m-4"
+            >
+              Disconnect Sequence
+            </button>
           )}
         </div>
       </div>
