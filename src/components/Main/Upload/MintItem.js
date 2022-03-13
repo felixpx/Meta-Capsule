@@ -22,6 +22,7 @@ export default function MintItem() {
   async function contractCall(object) {
     const web3Provider = await Moralis.enableWeb3()
     const ethers = Moralis.web3Library
+
     const contractMint = new ethers.Contract(
       mintAddress,
       MintABI,

@@ -13,7 +13,7 @@ export default function CollectionItem(props) {
 
   //   const [isListed, setIsListed] = useState(props.data.get('listed'))
 
-  const { Moralis, user, enableWeb3 } = useMoralis()
+  const { Moralis, user, isAuthenticated } = useMoralis()
   const [isListed, setIsListed] = useState()
 
   async function contractCallListItem() {
@@ -25,6 +25,8 @@ export default function CollectionItem(props) {
       MarketABI,
       web3Provider.getSigner()
     )
+
+    console.log(web3Provider.getSigner())
     console.log(props.data.get('pricePerItem'))
     console.log(props.data.get('numberOfItems'))
 
@@ -46,7 +48,7 @@ export default function CollectionItem(props) {
   }
 
   function listItem() {
-    contractCallListItem()
+    if (user && isAuthenticated) contractCallListItem()
   }
 
   return (

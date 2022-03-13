@@ -2,11 +2,54 @@ import { ClipboardCopyIcon, UserIcon } from '@heroicons/react/outline'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useChain, useMoralis, useMoralisFile } from 'react-moralis'
+import { EscrowABI, EscrowAddress } from '../../Contracts/EscrowContract'
+import { USDCABI, USDCAddress } from '../../Contracts/USDCContract'
 
 export default function ArtistInfo() {
-  const { Moralis, isUserUpdating } = useMoralis()
+  const { Moralis, isUserUpdating, user } = useMoralis()
   const { saveFile } = useMoralisFile()
 
+  // contract Call
+  async function contractCall(object) {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contractEscrow = new ethers.Contract(
+      EscrowAddress,
+      EscrowABI,
+      web3Provider.getSigner()
+    )
+    const USDCContract = new ethers.Contract(
+      USDCAddress,
+      USDCABI,
+      web3Provider.getSigner()
+    )
+
+    const seller = '0xb1ba2461A158a55a15715A1EF8359132e1e28897'
+    const date = new Date(object.get('projectDeadline'))
+    let time = date.getTime()
+
+    const projectAmount = object.get('projectPayment')
+    let approveAmount = projectAmount
+
+    USDCContract.approve(
+      user.get('ethAddress'),
+      ethers.utils.parseUnits(approveAmount.toString(), 6)
+    ).then((result) => {
+      contractEscrow
+        .createAgreement(object.id, seller, time, projectAmount)
+        .then((result) => {
+          console.log('hello')
+          console.log(result)
+        })
+      // .then((result) => {
+      //   alert('mint confirmed, now approve for marketplace')
+      //   contractMint.setApprovalForAll(marketplaceAddress, true)
+      // })
+    })
+  }
+
+  // Save Escrow in Moralis
   async function saveEscrow(e) {
     e.preventDefault()
     const projectName = document.getElementById('projectName').value
@@ -15,6 +58,7 @@ export default function ArtistInfo() {
     const projectEmail = document.getElementById('projectEmail').value
     const projectPayment = document.getElementById('projectPayment').value
     const projectFile = document.getElementById('projectFile').files[0]
+    const projectDeadline = document.getElementById('projectDeadline').value
 
     let ipfsProjectFile = ''
 
@@ -51,8 +95,9 @@ export default function ArtistInfo() {
     escrow.set('projectEmail', projectEmail)
     escrow.set('projectPayment', projectPayment)
     escrow.set('projectFile', ipfsProjectFile)
+    escrow.set('projectDeadline', projectDeadline)
     escrow.save().then((object) => {
-      // contractCall(object);
+      contractCall(object)
       alert('saved')
     })
   }
@@ -79,6 +124,12 @@ export default function ArtistInfo() {
           id={'projectPayment'}
           type={'number'}
           placeholder={'Payment in USDC'}
+          className="mr-4 rounded-xl bg-indigo-100 px-2 py-1 outline outline-black"
+        />
+        <input
+          id={'projectDeadline'}
+          type={'date'}
+          placeholder={'Deadline'}
           className="mr-4 rounded-xl bg-indigo-100 px-2 py-1 outline outline-black"
         />
 

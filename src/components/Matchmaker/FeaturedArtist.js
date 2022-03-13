@@ -17,9 +17,9 @@ export default function FeaturedArtist() {
   }, [user])
 
   function escrow() {
-    setEscrowModal(true)
-
-    //contract call
+    if (user) {
+      setEscrowModal(true)
+    }
   }
 
   function visitWebsite() {
