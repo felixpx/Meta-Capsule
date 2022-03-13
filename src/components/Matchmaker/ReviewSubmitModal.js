@@ -4,7 +4,9 @@ import { useMoralis, useMoralisFile } from 'react-moralis'
 import { EscrowABI, EscrowAddress } from '../../Contracts/EscrowContract'
 
 export default function ReviewSubmitModal(props) {
-  const { Moralis, isUserUpdating, user } = useMoralis()
+  const { Moralis, user } = useMoralis()
+
+  const [finalApproval, setFinalApproval] = useState()
 
   function approveReview() {
     // if (user == props.data.get('projectBrand')) {
@@ -28,6 +30,8 @@ export default function ReviewSubmitModal(props) {
     )
     contractEscrow.completeAgreement(props.data.id).then((result) => {
       console.log(result)
+      setFinalApproval(true)
+      alert('successfully approved the item of this contract')
     })
   }
 
@@ -43,6 +47,8 @@ export default function ReviewSubmitModal(props) {
     )
     contractEscrow.rejectAgreement(props.data.id).then((result) => {
       console.log(result)
+      setFinalApproval(false)
+      alert('successfully denied the item of this contract')
     })
   }
 
@@ -60,14 +66,12 @@ export default function ReviewSubmitModal(props) {
       <button
         className="mt-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
         onClick={approveReview}
-        disabled={isUserUpdating}
       >
         APPROVE ITEM
       </button>
       <button
         className="mt-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
         onClick={denyReview}
-        disabled={isUserUpdating}
       >
         DENY ITEM
       </button>

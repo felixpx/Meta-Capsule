@@ -29,12 +29,6 @@ export default function LiveEscrow(props) {
 
   function escrowSubmit() {
     setEscrowModal(true)
-
-    //contract call
-  }
-
-  function visitWebsite() {
-    window.open('https://www.light0green.xyz')
   }
 
   function escrowApprove() {
