@@ -57,7 +57,7 @@ export default function ArtistInfo() {
     const projectFile = document.getElementById('projectFile').files[0]
     const projectDeadline = document.getElementById('projectDeadline').value
     const projectBrand = user.get('ethAddress')
-    const projectArtist = '0xb1ba2461A158a55a15715A1EF8359132e1e28897'
+    const projectArtist = '0xb1ba2461a158a55a15715a1ef8359132e1e28897'
 
     let ipfsProjectFile = ''
 

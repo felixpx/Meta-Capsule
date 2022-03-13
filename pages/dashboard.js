@@ -52,8 +52,9 @@ const Home = () => {
     if (user) {
       const Escrow = Moralis.Object.extend('Escrow')
       const query = new Moralis.Query(Escrow)
-      // query.notEqualTo('owner', 'notactive')
       query.equalTo('active', true)
+      // query.equalTo('projectBrand', user.get('ethAddress'))
+      query.equalTo('projectArtist', user.get('ethAddress'))
 
       query.find().then((results) => {
         let result = []

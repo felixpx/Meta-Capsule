@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMoralis, useMoralisFile } from 'react-moralis'
 
-export default function ArtistInfo() {
+export default function ArtistInfo(props) {
   const { Moralis, isUserUpdating } = useMoralis()
   const { saveFile } = useMoralisFile()
 
@@ -38,12 +38,13 @@ export default function ArtistInfo() {
     const EscrowSubmission = new Moralis.Object.extend('EscrowSubmission')
     const escrowSub = new EscrowSubmission()
 
-    escrowSub.set('projectDescription', projectDescription)
-    escrowSub.set('projectFile', ipfsProjectFile)
-    escrowSub.save().then((object) => {
-      // contractCall(object);
-      alert('saved')
-    })
+    // props.setFile(ipfsProjectFile)
+    props.submitEscrowCall(ipfsProjectFile)
+    // escrowSub.set('projectDescription', projectDescription)
+    // escrowSub.set('projectFile', ipfsProjectFile)
+    // escrowSub.save().then((object) => {
+    //   // contractCall(object);
+    //   alert('saved')
   }
 
   return (
@@ -70,7 +71,7 @@ export default function ArtistInfo() {
         onClick={saveEscrowSubmit}
         disabled={isUserUpdating}
       >
-        Submit
+        Save Files
       </button>
     </div>
   )

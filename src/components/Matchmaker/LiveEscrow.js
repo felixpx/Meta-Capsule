@@ -4,16 +4,26 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import EscrowSubmitModal from './EscrowSubmitModal'
+import { EscrowABI, EscrowAddress } from '../../Contracts/EscrowContract'
 
 export default function LiveEscrow(props) {
   //   const router = useRouter()
-  const { user } = useMoralis()
+  const { user, Moralis } = useMoralis()
 
   const [artistId, setArtistId] = useState()
   const [escrowModal, setEscrowModal] = useState(false)
+  const [escrowApproved, setEscrowApproved] = useState(
+    props.data.get('approved')
+  )
+
+  const [submissionPending, setSubmissionPending] = useState(
+    props.data.get('fileUploaded')
+  )
 
   useEffect(() => {
     if (user) setArtistId(user.get('ethAddress'))
+
+    // setEscrowApproved (true)
   }, [user])
 
   function escrowSubmit() {
@@ -27,7 +37,41 @@ export default function LiveEscrow(props) {
   }
 
   function escrowApprove() {
-    // approve conract call
+    approveEscrowCall()
+  }
+
+  //contractCall
+  async function approveEscrowCall() {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contractEscrow = new ethers.Contract(
+      EscrowAddress,
+      EscrowABI,
+      web3Provider.getSigner()
+    )
+    contractEscrow.acceptAgreement(props.data.id).then((result) => {
+      console.log(result)
+      setEscrowApproved(true)
+    })
+  }
+
+  //contract Call Submission
+  const submitEscrowCall = async (fileName) => {
+    const web3Provider = await Moralis.enableWeb3()
+    const ethers = Moralis.web3Library
+
+    const contractEscrow = new ethers.Contract(
+      EscrowAddress,
+      EscrowABI,
+      web3Provider.getSigner()
+    )
+
+    contractEscrow.uploadFiles(props.data.id, fileName).then((result) => {
+      console.log(result)
+      setEscrowModal(false)
+      setSubmissionPending(true)
+    })
   }
 
   return (
@@ -35,8 +79,14 @@ export default function LiveEscrow(props) {
       {escrowModal && (
         <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
           <div className="flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
-            <EscrowSubmitModal />
+            <EscrowSubmitModal submitEscrowCall={submitEscrowCall} />
 
+            <button
+              className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
+              onClick={submitEscrowCall}
+            >
+              Submit to Contract
+            </button>
             <button
               className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
               onClick={() => setEscrowModal(false)}
@@ -53,12 +103,12 @@ export default function LiveEscrow(props) {
           class="mb-7 rounded-xl bg-white bg-opacity-50 p-6 shadow focus:outline-none lg:mr-7 lg:mb-0 lg:w-4/12"
         >
           <div class="flex items-center border-b border-gray-200 pb-6">
-            <img
+            {/* <img
               //   onClick={() => router.push(`/artist/${artistId}`)}
               src="/blankimg.png"
               alt="coin avatar"
               className="h-12 w-12 cursor-pointer rounded-full"
-            />
+            /> */}
             <div class="flex w-full items-start justify-between">
               <div class="w-full pl-3">
                 <p
@@ -84,7 +134,7 @@ export default function LiveEscrow(props) {
                   {props.data.get('projectEmail')}
                 </p>
               </div>
-              <div role="img" aria-label="bookmark">
+              {/* <div role="img" aria-label="bookmark">
                 <svg
                   class="focus:outline-none"
                   width="28"
@@ -101,13 +151,13 @@ export default function LiveEscrow(props) {
                     stroke-linejoin="round"
                   />
                 </svg>
-              </div>
+              </div> */}
             </div>
           </div>
           <div class="px-2">
             <p
               tabindex="0"
-              class="py-4 text-sm leading-5 text-gray-600 focus:outline-none"
+              class=" py-4 text-sm leading-5 text-gray-600 focus:outline-none"
             >
               Hi I'm Yifan Pu (sometimes as light0green). I'm a Chinese virtual
               fashion designer and artist currently based in Berlin. I taught
@@ -118,24 +168,49 @@ export default function LiveEscrow(props) {
               username light0green is a combination of my favourite colour light
               green and the character Yagami Light (pronounced Rai-to) from
               anime Death Note.
+              {/* {props.data.get('projectDescription')} */}
             </p>
-            <div
-              tabindex="0"
-              className="flex items-center justify-evenly focus:outline-none "
-            >
-              <button
-                onClick={escrowSubmit}
-                className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+
+            {!submissionPending && (
+              <div
+                tabindex="0"
+                className="flex items-center justify-evenly focus:outline-none "
               >
-                Escrow Submission
-              </button>
-              <button
-                onClick={escrowApprove}
-                className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+                <button
+                  onClick={escrowSubmit}
+                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                    !escrowApproved &&
+                    'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
+                  }`}
+                >
+                  Escrow Submission
+                </button>
+                <button
+                  onClick={escrowApprove}
+                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                    escrowApproved &&
+                    'cursor-not-allowed border-white bg-black bg-opacity-20 text-white'
+                  }`}
+                >
+                  Approve Submission
+                </button>
+              </div>
+            )}
+            {submissionPending && (
+              <div
+                tabindex="0"
+                className="flex items-center justify-evenly focus:outline-none "
               >
-                Approve Submission
-              </button>
-            </div>
+                <button
+                  className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1 ${
+                    submissionPending &&
+                    'cursor-default border-white bg-black bg-opacity-20 text-white'
+                  }`}
+                >
+                  Submission Pending
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
