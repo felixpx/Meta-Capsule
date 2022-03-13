@@ -47,14 +47,33 @@ const Home = () => {
     }
   }, [isAuthenticated, isWeb3Enabled, isWeb3EnableLoading, user, enableWeb3])
 
+  // 3d Artist
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
     if (user) {
       const Escrow = Moralis.Object.extend('Escrow')
       const query = new Moralis.Query(Escrow)
       query.equalTo('active', true)
-      // query.equalTo('projectBrand', user.get('ethAddress'))
       query.equalTo('projectArtist', user.get('ethAddress'))
+
+      query.find().then((results) => {
+        let result = []
+        results.forEach((escrow) => {
+          result.push(escrow)
+        })
+        setEscrows(result)
+        console.log(results)
+      })
+    }
+  }, [isAuthenticated, isWeb3Enabled, isWeb3EnableLoading, user, enableWeb3])
+
+  useEffect(() => {
+    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
+    if (user) {
+      const Escrow = Moralis.Object.extend('Escrow')
+      const query = new Moralis.Query(Escrow)
+      query.equalTo('active', true)
+      query.equalTo('projectBrand', user.get('ethAddress'))
 
       query.find().then((results) => {
         let result = []
@@ -146,9 +165,6 @@ const Home = () => {
               </button>
             </div>
           </div>
-          {/* <div className="absolute top-36 flex w-full items-center justify-center sm:top-0 sm:justify-end sm:opacity-0">
-            <SunIcon className="h-12" />
-          </div> */}
         </div>
         <div className="absolute top-44 w-full">
           {upload && (
@@ -182,17 +198,6 @@ const Home = () => {
           )}
         </div>
       </main>
-      {/* <footer className="flex h-24 w-full items-center justify-center border-t">
-        <a
-          className="flex items-center justify-center gap-2"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-        </a>
-      </footer> */}
     </div>
   )
 }

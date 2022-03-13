@@ -108,7 +108,7 @@ const Home: NextPage = () => {
         </div>
         <div className="absolute top-48 w-full items-center justify-center">
           <div className="flex w-full flex-col items-center justify-center space-y-8 sm:mt-2">
-            <p className="mb-4 text-2xl">Featured 3D Artists</p>
+            <p className="mb-4 text-2xl">FEATURED 3D ARTISTS</p>
             <div className="flex w-full flex-row items-center justify-center">
               <div
                 aria-label="group of cards"
