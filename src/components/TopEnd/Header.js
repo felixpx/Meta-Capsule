@@ -1,6 +1,7 @@
 import { useChain, useMoralis } from 'react-moralis'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 export default function Header() {
   const { switchNetwork } = useChain()
@@ -37,7 +38,7 @@ export default function Header() {
     <header className="relative flex w-full">
       <div className="sticky flex h-auto w-full flex-col items-center justify-between overflow-hidden bg-[#f5f5f5] sm:flex-row">
         <h1 className="m-2 whitespace-nowrap text-xl text-black sm:m-4 lg:m-4">
-          META CAPSULE
+          <Image src={'/blk.png'} width={200} height={50} />
         </h1>
         <div className="text-gray-800">
           {isAuthenticated && wrongNetwork ? (

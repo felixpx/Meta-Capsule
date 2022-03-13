@@ -75,18 +75,11 @@ export default function LiveEscrow(props) {
   }
 
   return (
-    <div>
+    <div className="h-screen w-full">
       {escrowModal && (
         <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
           <div className="flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
             <EscrowSubmitModal submitEscrowCall={submitEscrowCall} />
-
-            <button
-              className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
-              onClick={submitEscrowCall}
-            >
-              Submit to Contract
-            </button>
             <button
               className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
               onClick={() => setEscrowModal(false)}

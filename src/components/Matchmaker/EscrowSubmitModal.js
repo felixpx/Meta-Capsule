@@ -35,16 +35,7 @@ export default function ArtistInfo(props) {
     await metadataFile.saveIPFS()
     const metadataURI = metadataFile.ipfs()
 
-    const EscrowSubmission = new Moralis.Object.extend('EscrowSubmission')
-    const escrowSub = new EscrowSubmission()
-
-    // props.setFile(ipfsProjectFile)
     props.submitEscrowCall(ipfsProjectFile)
-    // escrowSub.set('projectDescription', projectDescription)
-    // escrowSub.set('projectFile', ipfsProjectFile)
-    // escrowSub.save().then((object) => {
-    //   // contractCall(object);
-    //   alert('saved')
   }
 
   return (
@@ -71,7 +62,7 @@ export default function ArtistInfo(props) {
         onClick={saveEscrowSubmit}
         disabled={isUserUpdating}
       >
-        Save Files
+        Save Files & Submit to Contract
       </button>
     </div>
   )

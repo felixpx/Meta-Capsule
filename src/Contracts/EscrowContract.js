@@ -4,4 +4,4 @@ export const EscrowABI = [
   'function uploadFiles(string calldata agreementId,string calldata file) public',
 ]
 
-export const EscrowAddress = '0x181aeb345a2645B294b3fd5d7e0429fd5eDA0eca'
+export const EscrowAddress = '0xfB6cce4bAca5E8d1d8ccDe65051050Ef617C92Ba'
