@@ -30,22 +30,19 @@ export default function ArtistInfo() {
     let time = date.getTime()
 
     const projectAmount = object.get('projectPayment')
-    let approveAmount = projectAmount
 
-    USDCContract.approve(
-      user.get('ethAddress'),
-      ethers.utils.parseUnits(approveAmount.toString(), 6)
-    ).then((result) => {
+    console.log(projectAmount)
+
+    const preparedAmount = ethers.utils.parseUnits(projectAmount.toString(), 6)
+
+    console.log(preparedAmount)
+
+    USDCContract.approve(EscrowAddress, preparedAmount).then((result) => {
       contractEscrow
         .createAgreement(object.id, seller, time, projectAmount)
         .then((result) => {
-          console.log('hello')
           console.log(result)
         })
-      // .then((result) => {
-      //   alert('mint confirmed, now approve for marketplace')
-      //   contractMint.setApprovalForAll(marketplaceAddress, true)
-      // })
     })
   }
 
@@ -59,6 +56,8 @@ export default function ArtistInfo() {
     const projectPayment = document.getElementById('projectPayment').value
     const projectFile = document.getElementById('projectFile').files[0]
     const projectDeadline = document.getElementById('projectDeadline').value
+    const projectBrand = user.get('ethAddress')
+    const projectArtist = '0xb1ba2461A158a55a15715A1EF8359132e1e28897'
 
     let ipfsProjectFile = ''
 
@@ -96,6 +95,8 @@ export default function ArtistInfo() {
     escrow.set('projectPayment', projectPayment)
     escrow.set('projectFile', ipfsProjectFile)
     escrow.set('projectDeadline', projectDeadline)
+    escrow.set('projectBrand', projectBrand)
+    escrow.set('projectArtist', projectArtist)
     escrow.save().then((object) => {
       contractCall(object)
       alert('saved')

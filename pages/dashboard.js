@@ -24,6 +24,7 @@ const Home = () => {
   } = useMoralis()
 
   const [items, setItems] = useState([])
+  const [escrows, setEscrows] = useState([])
 
   Moralis.start({ serverUrl, appId })
 
@@ -41,6 +42,25 @@ const Home = () => {
           result.push(item)
         })
         setItems(result)
+        console.log(results)
+      })
+    }
+  }, [isAuthenticated, isWeb3Enabled, isWeb3EnableLoading, user, enableWeb3])
+
+  useEffect(() => {
+    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
+    if (user) {
+      const Escrow = Moralis.Object.extend('Escrow')
+      const query = new Moralis.Query(Escrow)
+      // query.notEqualTo('owner', 'notactive')
+      query.equalTo('active', true)
+
+      query.find().then((results) => {
+        let result = []
+        results.forEach((escrow) => {
+          result.push(escrow)
+        })
+        setEscrows(result)
         console.log(results)
       })
     }
@@ -144,7 +164,9 @@ const Home = () => {
                 <p className="mb-4 text-2xl">Live Escrows</p>
               </div>
               {/* map through escrows */}
-              <LiveEscrow />
+              {escrows.map((data, index) => (
+                <LiveEscrow data={data} key={index} />
+              ))}
             </div>
           )}
           {collection && (

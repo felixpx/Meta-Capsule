@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useMoralis } from 'react-moralis'
 import EscrowSubmitModal from './EscrowSubmitModal'
 
-export default function FeaturedArtist() {
+export default function LiveEscrow(props) {
   //   const router = useRouter()
   const { user } = useMoralis()
 
@@ -24,6 +24,10 @@ export default function FeaturedArtist() {
 
   function visitWebsite() {
     window.open('https://www.light0green.xyz')
+  }
+
+  function escrowApprove() {
+    // approve conract call
   }
 
   return (
@@ -62,19 +66,22 @@ export default function FeaturedArtist() {
                   tabindex="0"
                   class="cursor-pointer text-xl font-medium leading-5 text-gray-800 hover:underline focus:outline-none"
                 >
-                  Project Name
+                  {/* Project Name */}
+                  {props.data.get('projectName')}
                 </p>
-                <p
+                <div
                   tabindex="0"
                   class="pt-2 text-sm leading-normal text-gray-500 focus:outline-none"
                 >
-                  ARTST & BRAND in Escrow
-                </p>
+                  {/* ARTST & BRAND in Escrow */}
+                  <p>{props.data.get('projectBrand')}</p>
+                  <p>{props.data.get('projectArtist')}</p>
+                </div>
                 <p
                   tabindex="0"
                   class="pt-1 text-sm leading-normal text-gray-500 focus:outline-none"
                 >
-                  projectEmail
+                  {props.data.get('projectEmail')}
                 </p>
               </div>
               <div role="img" aria-label="bookmark">
@@ -121,6 +128,12 @@ export default function FeaturedArtist() {
                 className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
               >
                 Escrow Submission
+              </button>
+              <button
+                onClick={escrowApprove}
+                className={`m-1 whitespace-nowrap rounded-lg border-2 border-gray-800 px-2 py-1`}
+              >
+                Approve Submission
               </button>
             </div>
           </div>
