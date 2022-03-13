@@ -154,7 +154,7 @@ const Home = () => {
           {upload && (
             <div className="flex w-full flex-col items-center justify-center">
               <div className="flex w-full flex-row items-center justify-evenly">
-                <p className="mb-4 text-2xl">Mint Item</p>
+                <p className="mb-8 text-2xl">MINT</p>
               </div>
               <MintItem />
             </div>
@@ -162,7 +162,7 @@ const Home = () => {
           {match && (
             <div className="flex w-full flex-col items-center justify-center">
               <div className="flex w-full flex-row items-center justify-evenly">
-                <p className="mb-4 text-2xl">Live Escrows</p>
+                <p className="mb-4 text-2xl">LIVE ESCROWS</p>
               </div>
               {/* map through escrows */}
               {escrows.map((data, index) => (
@@ -171,7 +171,10 @@ const Home = () => {
             </div>
           )}
           {collection && (
-            <div className="mt-10 flex w-9/12 flex-wrap justify-center">
+            <div className="flex w-full flex-col items-center justify-center">
+              <div className="flex w-full flex-row items-center justify-evenly">
+                <p className="mb-4 text-2xl">COLLECTION</p>
+              </div>
               {items.map((data, index) => (
                 <CollectionItem data={data} key={index} />
               ))}
