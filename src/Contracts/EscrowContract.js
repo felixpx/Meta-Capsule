@@ -6,4 +6,4 @@ export const EscrowABI = [
   'function rejectAgreement(string calldata agreementId) public',
 ]
 
-export const EscrowAddress = '0xfB6cce4bAca5E8d1d8ccDe65051050Ef617C92Ba'
+export const EscrowAddress = '0x39a9072569f40C14aa656ca8891b19c918beB734'

@@ -27,17 +27,15 @@ export default function LiveEscrow(props) {
 
   useEffect(() => {
     if (user) setArtistId(user.get('ethAddress'))
-    if (finalApp) {
-      setShowButtons(false)
-    } else if (!finalApp) {
+    if (finalApp && !finalApp != undefined) {
       setShowButtons(false)
     } else {
-      showButtons(true)
+      setShowButtons(true)
     }
   }, [user])
 
   function escrowSubmit() {
-    setEscrowModal(true)
+    return setEscrowModal(true)
   }
 
   function escrowApprove() {
@@ -119,7 +117,7 @@ export default function LiveEscrow(props) {
     <div className="h-screen w-full">
       {escrowModal && (
         <div className="fixed z-50 flex h-screen w-full justify-center  bg-white bg-opacity-80 ">
-          <div className="flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
+          <div className="z-50 flex h-max w-4/12 flex-col items-center justify-center border-x-2 border-b-2 border-indigo-100 bg-gray-800  shadow-2xl">
             <EscrowSubmitModal submitEscrowCall={submitEscrowCall} />
             <button
               className="mt-2 mb-4 whitespace-nowrap rounded-lg border-2 border-indigo-400 bg-indigo-100 px-2"
@@ -157,14 +155,14 @@ export default function LiveEscrow(props) {
             <div className="flex w-full items-start justify-between">
               <div className="w-full pl-3">
                 <p
-                  tabindex="0"
-                  class="text-xl font-medium leading-5 text-gray-800 focus:outline-none"
+                  tabIndex="0"
+                  className="text-xl font-medium leading-5 text-gray-800 focus:outline-none"
                 >
                   {props.data.get('projectName')}
                 </p>
                 <p
-                  tabindex="0"
-                  class="mt-2 text-sm font-medium leading-5 text-gray-800 focus:outline-none"
+                  tabIndex="0"
+                  className="mt-2 text-sm font-medium leading-5 text-gray-800 focus:outline-none"
                 >
                   Deadline -{props.data.get('projectDeadline')}
                 </p>
@@ -207,7 +205,7 @@ export default function LiveEscrow(props) {
                 <CheckCircleIcon className="h-6 text-green-500" />
               </div>
             )}
-            {!finalApp && (
+            {!finalApp && finalApp != undefined && (
               <div className="flex flex-row items-center justify-center">
                 <p>DENIED</p>
                 <XIcon className="h-6 text-red-500" />

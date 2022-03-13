@@ -14,20 +14,20 @@ export default function Header() {
     Moralis,
   } = useMoralis()
 
-  const [isConnected, setIsConnected] = useState()
+  // const [isConnected, setIsConnected] = useState()
 
-  const userConnect = async () => {
-    await Moralis.authenticate({
-      provider: 'walletconnect',
-      chainId: 80001,
-    })
-    setIsConnected(true)
-  }
+  // const userConnect = async () => {
+  //   await Moralis.authenticate({
+  //     provider: 'walletconnect',
+  //     chainId: 80001,
+  //   })
+  //   setIsConnected(true)
+  // }
 
-  const userDisconnect = async () => {
-    logout()
-    setIsConnected(false)
-  }
+  // const userDisconnect = async () => {
+  //   logout()
+  //   setIsConnected(false)
+  // }
 
   const [wrongNetwork, setWrongNetwork] = useState('')
 
@@ -81,7 +81,7 @@ export default function Header() {
             )
           )}
 
-          {!isConnected && (
+          {/* {!isConnected && (
             <button
               onClick={userConnect}
               className="m-2 whitespace-nowrap rounded-xl border-2 border-gray-800 px-2 py-1 lg:m-4"
@@ -96,7 +96,7 @@ export default function Header() {
             >
               Disconnect Sequence
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </header>
