@@ -20,7 +20,7 @@ export default function Marketplace() {
   Moralis.start({ serverUrl, appId })
 
   useEffect(() => {
-    if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3()
+     
     if (user) {
       const Item = Moralis.Object.extend('Item')
       const query = new Moralis.Query(Item)
